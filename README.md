@@ -1,13 +1,7 @@
 # 🧠 Desarrollo de un Sistema Integrado de Simulación de Señales ECG
 ## 1️⃣ Contexto y Motivación
 
-En cursos de Procesamiento de Señales Médicas (PDSM) para Ingeniería Biomédica y áreas afines, la etapa de adquisición real de señales suele omitirse o sustituirse por simuladores comerciales de alto costo (p. ej., PROSIM de FLUKE). Esto:
-
-Limita la comprensión del flujo completo de señal (generación → adquisición → análisis).
-
-Aumenta la barrera económica para equipar laboratorios docentes.
-
-La propuesta busca un sistema económico, reproducible y escalable que integre generación sintética de ECG mediante LLM, hardware abierto y adquisición real para mejorar la formación práctica.
+La propuesta busca un sistema reproducible  que integre generación sintética de ECG.
 
 ## 2️⃣ Objetivo General
 
@@ -15,9 +9,7 @@ Evaluar el desempeño de un sistema integrado para generación y adquisición de
 
 Objetivos específicos
 
-Afinar y configurar un LLM para generar formas de onda ECG parametrizadas.
-
-Construir hardware con DAC y acondicionamiento de señal compatible con equipos médicos.
+Afinar y configurar un modelo para generar formas de onda ECG parametrizadas.
 
 Diseñar protocolos de prueba para comparar señales con un simulador comercial.
 
@@ -97,5 +89,6 @@ Terminar el fine-tuning del LLM con dataset curado de instrucciones y parámetro
 Construir el prototipo de hardware y realizar pruebas de señal DAC vs simulador comercial.
 
 Validar error medio (<5%) en amplitud y tiempo de P-QRS-T.
+
 
 Integrar interfaz gráfica completa y pruebas de usuario con estudiantes.
