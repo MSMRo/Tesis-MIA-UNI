@@ -1,94 +1,117 @@
-# 🧠 Desarrollo de un Sistema Integrado de Simulación de Señales ECG
+# 🧠 Generación Sintética de Señales ECG para Aplicaciones en Educación y Validación de Algoritmos
+
 ## 1️⃣ Contexto y Motivación
 
-La propuesta busca un sistema reproducible  que integre generación sintética de ECG.
+En el campo de la **Ingeniería Biomédica** y áreas afines, existe una **carencia de bases de datos de señales ECG accesibles, amplias y balanceadas** que representen adecuadamente la variabilidad fisiológica y patológica. Las bases públicas existentes, como **PTB-XL** y **MIT-BIH Arrhythmia Database (MITDB) de [PhysioNet](https://physionet.org/files/mitdb)**, aunque valiosas, presentan limitaciones:
+
+* Tamaños de muestra relativamente pequeños para ciertas patologías.
+* Variabilidad restringida en poblaciones y condiciones.
+* Anotaciones heterogéneas o insuficientes para algunos fines educativos e investigativos.
+
+Esto genera dificultades en:
+
+* **Formación académica**, al impedir que estudiantes practiquen con datos diversos y realistas.
+* **Investigación y validación de algoritmos**, por falta de datos suficientes para entrenar modelos robustos.
+* **Reproducibilidad científica**, debido a restricciones de licencias o tamaños limitados.
+
+La propuesta busca **desarrollar un modelo generativo basado en GANs (Generative Adversarial Networks)** para producir señales ECG sintéticas realistas y parametrizables, complementando y ampliando bases como **PTB-XL** y **MITDB**, facilitando la docencia y la investigación.
+
+---
 
 ## 2️⃣ Objetivo General
 
-Evaluar el desempeño de un sistema integrado para generación y adquisición de señales ECG, controlado mediante instrucciones en lenguaje natural y un modelo de lenguaje entrenado (LLM), midiendo el error porcentual medio de amplitud y posición temporal de los complejos P-QRS-T frente a un simulador comercial de referencia.
+Evaluar el desempeño de un **modelo generativo de señales ECG basado en GANs**, midiendo la similitud morfológica y temporal de los complejos **P-QRS-T** respecto a señales reales provenientes de bases de datos públicas de referencia (**PTB-XL y MIT-BIH Arrhythmia Database**).
 
-Objetivos específicos
+### Objetivos específicos
 
-Afinar y configurar un modelo para generar formas de onda ECG parametrizadas.
+* Entrenar y ajustar un **modelo GAN** para generar señales ECG con variabilidad controlada (frecuencia cardíaca, morfología, alteraciones comunes).
+* Establecer un conjunto de métricas objetivas para comparar señales sintéticas con señales reales.
+* Validar la capacidad del modelo para preservar características fisiológicas clave (duración y amplitud de ondas, intervalos PR, QT, RR).
+* Generar un conjunto de datos sintético documentado y reproducible para uso educativo y validación de algoritmos.
 
-Diseñar protocolos de prueba para comparar señales con un simulador comercial.
-
-Evaluar el error medio de amplitud y tiempo en los complejos P, QRS y T.
-
-Realizar análisis estadístico de desempeño y usabilidad con estudiantes.
+---
 
 ## 3️⃣ Metodología
 
-Etapas:
+**Etapas:**
 
-Revisión bibliográfica
+1. **Revisión bibliográfica**
 
-Modelos matemáticos de ECG (p. ej. McSharry et al.)
+   * Modelos matemáticos de ECG (McSharry et al.).
+   * Arquitecturas GAN aplicadas a datos biomédicos (cGAN, WGAN, TimeGAN).
 
-Aplicación de LLMs en control y generación de señales médicas.
+2. **Preparación de datos**
 
-Diseño y construcción de hardware
+   * Selección y limpieza de datasets públicos: **PTB-XL** y **MIT-BIH Arrhythmia Database (MITDB)**.
+   * Normalización de amplitud y frecuencia de muestreo.
+   * Anotación de complejos P, QRS y T.
 
-Microcontrolador con DAC (ESP32 / STM32).
+3. **Diseño y entrenamiento del modelo**
 
-Etapa de acondicionamiento de señal y emulación de impedancias.
+   * Arquitecturas candidatas: WGAN-GP, TimeGAN, cGAN condicional en ritmo y frecuencia.
+   * Evaluación iterativa de estabilidad de entrenamiento y calidad de señales.
 
-Integración con Arduino para adquisición y muestreo.
+4. **Evaluación y validación**
 
-Desarrollo de software
+   * Comparación cuantitativa y cualitativa de las señales generadas vs. reales usando métricas objetivas y análisis visual.
 
-Backend en Python para generación de ECG sintético.
-
-Interfaz gráfica (PyQt/Tkinter) con control manual y por lenguaje natural.
-
-Comunicación bidireccional PC ↔ Arduino.
-
-Fine-tuning del LLM
-
-Dataset de instrucciones en lenguaje natural → parámetros ECG (frecuencia, amplitud, arritmias).
-
-Entrenamiento y validación en plataformas como Hugging Face.
-
-Validación
-
-Comparación con simulador comercial (referencia).
-
-Talleres con estudiantes para evaluar precisión y usabilidad.
+---
 
 ## 4️⃣ Avances Técnicos
-🔹 Generación Sintética de ECG (GEN_EKG.ipynb)
 
-Modelos de onda ECG: Implementación basada en parámetros fisiológicos ajustables (frecuencia cardíaca, amplitud de P, QRS y T).
+### 🔹 Generación Sintética de ECG (`GEN_EKG.ipynb`)
 
-Control por lenguaje natural: Pruebas iniciales para traducir texto a parámetros de onda.
+* Implementación de **generadores basados en arquitecturas recurrentes y convolucionales** para capturar dependencias temporales y morfología ECG.
+* Configuración inicial de WGAN y TimeGAN para generación de segmentos de latido.
+* Visualización de señales sintéticas y comparación inicial de complejos P-QRS-T con datos reales.
 
-Visualización: Graficado dinámico de señales generadas y comparación con formas de onda de referencia.
+### 🔹 Exploración y Análisis de Datos (`EDA_dataset.ipynb`)
 
-🔹 Exploración y Análisis de Datos (EDA_dataset.ipynb)
+* Limpieza y balanceo de datasets **PTB-XL** y **MITDB**.
+* Extracción de características temporales y amplitud de P-QRS-T.
+* Primeras comparaciones estadísticas entre latidos reales y generados.
 
-Carga y limpieza de datasets ECG: Integración con bases como PTB-XL y otras públicas.
+---
 
-Extracción de características: picos P-QRS-T, intervalos RR, variabilidad de amplitud y tiempo.
+## 5️⃣ Métricas recomendadas para evaluar similitud ECG
 
-Métricas de calidad de señal: Error porcentual en amplitud y desplazamiento temporal inicial.
+**Dominio señal / morfología**
 
-## 5️⃣ Impacto y Alcance
+* **RMSE (Root Mean Square Error)** y **MAE (Mean Absolute Error)**: cuantifican diferencia punto a punto.
+* **CC / Pearson Correlation Coefficient**: mide correlación global entre señales.
+* **Dynamic Time Warping (DTW) distance**: robusto a ligeros desajustes temporales entre señales.
+* **FID adaptado (Fréchet Inception Distance modificado para series temporales)**: evalúa similitud en espacio latente.
 
-Académico: democratiza la enseñanza práctica de bioseñales con hardware accesible.
+**Dominio clínico / eventos**
 
-Tecnológico: integra IA generativa (LLM) para control intuitivo y personalización de señales.
+* **Error porcentual de amplitud y tiempo de picos P, QRS, T**.
+* **ΔRR y HRV (Heart Rate Variability)**: consistencia en variabilidad de intervalos RR.
+* **Waveform Similarity Index (WSI)** o **Normalized Cross-Correlation (NCC)**: útil para forma de onda.
 
-Escalabilidad: adaptable a otras bioseñales (EMG, EEG) y distintos niveles educativos.
+**Dominio frecuencia**
 
-Investigación: facilita experimentación en generación sintética y análisis de bioseñales.
+* **PSD (Power Spectral Density) similarity**: comparar distribución de energía en bandas relevantes.
 
-## 6️⃣ Próximos Pasos
+> **Recomendación práctica:**
+> Combinar métricas generales (RMSE, DTW, Pearson) con métricas clínicas (error de picos P-QRS-T) y FID adaptado para una validación robusta y multidimensional.
 
-Terminar el fine-tuning del LLM con dataset curado de instrucciones y parámetros ECG.
+---
 
-Construir el prototipo de hardware y realizar pruebas de señal DAC vs simulador comercial.
+## 6️⃣ Impacto y Alcance
 
-Validar error medio (<5%) en amplitud y tiempo de P-QRS-T.
+* **Académico**: democratiza la enseñanza práctica de bioseñales y generación de datasets sintéticos confiables.
+* **Investigación**: posibilita probar algoritmos de clasificación y detección de arritmias sin depender solo de datos reales.
+* **Tecnológico**: promueve el uso de **modelos generativos avanzados (GANs)** en biomedicina.
+* **Escalabilidad**: adaptable a otras señales fisiológicas (EMG, EEG) y nuevos modelos generativos.
+
+---
+
+## 7️⃣ Próximos Pasos
+
+* Mejorar estabilidad y realismo de la GAN con WGAN-GP y regularización espectral.
+* Calcular métricas combinadas (RMSE, DTW, correlación, FID) sobre dataset de validación.
+* Generar un conjunto curado de señales sintéticas etiquetadas con sus parámetros fisiológicos.
+* Documentar el pipeline para publicación y uso educativo.
 
 
-Integrar interfaz gráfica completa y pruebas de usuario con estudiantes.
+
