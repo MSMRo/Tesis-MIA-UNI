@@ -1,117 +1,129 @@
-# 🧠 Generación Sintética de Señales ECG para Aplicaciones en Educación y Validación de Algoritmos
+# 🧠 Generación de Señales ECG Sintéticas Usando Redes Generativas Adversarias (GANs)
 
 ## 1️⃣ Contexto y Motivación
 
-En el campo de la **Ingeniería Biomédica** y áreas afines, existe una **carencia de bases de datos de señales ECG accesibles, amplias y balanceadas** que representen adecuadamente la variabilidad fisiológica y patológica. Las bases públicas existentes, como **PTB-XL** y **MIT-BIH Arrhythmia Database (MITDB) de [PhysioNet](https://physionet.org/files/mitdb)**, aunque valiosas, presentan limitaciones:
+En el ámbito de la **Ingeniería Biomédica**, la disponibilidad de bases de datos amplias y balanceadas de señales ECG es limitada. Aunque repositorios como **PTB-XL** y **MIT-BIH Arrhythmia Database** son referencias importantes, presentan limitaciones de representatividad y diversidad fisiopatológica.
 
-* Tamaños de muestra relativamente pequeños para ciertas patologías.
-* Variabilidad restringida en poblaciones y condiciones.
-* Anotaciones heterogéneas o insuficientes para algunos fines educativos e investigativos.
+Esto afecta la:
 
-Esto genera dificultades en:
+* **Formación académica**, al restringir el entrenamiento en análisis de señales reales y diversas.
+* **Validación de algoritmos**, al no disponer de suficientes datos para evaluar modelos de clasificación o segmentación de ECG.
+* **Reproducibilidad científica**, debido a restricciones de tamaño o acceso.
 
-* **Formación académica**, al impedir que estudiantes practiquen con datos diversos y realistas.
-* **Investigación y validación de algoritmos**, por falta de datos suficientes para entrenar modelos robustos.
-* **Reproducibilidad científica**, debido a restricciones de licencias o tamaños limitados.
-
-La propuesta busca **desarrollar un modelo generativo basado en GANs (Generative Adversarial Networks)** para producir señales ECG sintéticas realistas y parametrizables, complementando y ampliando bases como **PTB-XL** y **MITDB**, facilitando la docencia y la investigación.
+El presente proyecto desarrolla un **modelo generativo basado en GANs unidimensionales (1D-GAN)** para **producir señales ECG sintéticas realistas y controladas**, que complementen las bases de datos reales y sirvan como fuente para **educación, investigación y benchmarking** de algoritmos de aprendizaje profundo en biomedicina.
 
 ---
 
 ## 2️⃣ Objetivo General
 
-Evaluar el desempeño de un **modelo generativo de señales ECG basado en GANs**, midiendo la similitud morfológica y temporal de los complejos **P-QRS-T** respecto a señales reales provenientes de bases de datos públicas de referencia (**PTB-XL y MIT-BIH Arrhythmia Database**).
+Implementar y evaluar un **modelo 1D-GAN** capaz de generar señales ECG sintéticas que preserven la morfología de los complejos **P-QRS-T** y las características fisiológicas observadas en señales reales.
 
 ### Objetivos específicos
 
-* Entrenar y ajustar un **modelo GAN** para generar señales ECG con variabilidad controlada (frecuencia cardíaca, morfología, alteraciones comunes).
-* Establecer un conjunto de métricas objetivas para comparar señales sintéticas con señales reales.
-* Validar la capacidad del modelo para preservar características fisiológicas clave (duración y amplitud de ondas, intervalos PR, QT, RR).
-* Generar un conjunto de datos sintético documentado y reproducible para uso educativo y validación de algoritmos.
+* Diseñar y entrenar una **arquitectura GAN 1D** adaptada a series temporales biomédicas.
+* Analizar la calidad morfológica y espectral de las señales generadas.
+* Validar la similitud entre señales reales y sintéticas mediante métricas cuantitativas (RMSE, correlación, DTW, FID).
+* Crear un conjunto reproducible de señales ECG sintéticas documentadas.
 
 ---
 
 ## 3️⃣ Metodología
 
-**Etapas:**
+### 🔹 1. Preparación de datos
 
-1. **Revisión bibliográfica**
+* Dataset base: **MIT-BIH Arrhythmia Database (PhysioNet)**.
+* Procesamiento: normalización de amplitud, segmentación en ciclos cardíacos, padding y escalado temporal uniforme.
+* División: entrenamiento (80%), validación (10%) y prueba (10%).
 
-   * Modelos matemáticos de ECG (McSharry et al.).
-   * Arquitecturas GAN aplicadas a datos biomédicos (cGAN, WGAN, TimeGAN).
+### 🔹 2. Diseño del modelo
 
-2. **Preparación de datos**
+* **Generador:** red convolucional transpuesta 1D con capas BatchNorm y activaciones ReLU.
+* **Discriminador:** red CNN-1D con capas convolucionales, LeakyReLU y dropout.
+* **Entrenamiento:**
 
-   * Selección y limpieza de datasets públicos: **PTB-XL** y **MIT-BIH Arrhythmia Database (MITDB)**.
-   * Normalización de amplitud y frecuencia de muestreo.
-   * Anotación de complejos P, QRS y T.
+  * Pérdida adversarial: Binary Cross-Entropy (BCE).
+  * Optimizadores Adam (lr=0.0002, β₁=0.5).
+  * Épocas: 500–1000.
+  * Entrada: ruido gaussiano z ∈ ℝⁿ (normalizado).
 
-3. **Diseño y entrenamiento del modelo**
+### 🔹 3. Evaluación
 
-   * Arquitecturas candidatas: WGAN-GP, TimeGAN, cGAN condicional en ritmo y frecuencia.
-   * Evaluación iterativa de estabilidad de entrenamiento y calidad de señales.
+* Métricas:
 
-4. **Evaluación y validación**
+  * **RMSE**, **MAE**, **DTW**, **Correlación de Pearson**.
+  * **FID adaptado para señales 1D** mediante proyecciones en espacio latente.
+* Visualización:
 
-   * Comparación cuantitativa y cualitativa de las señales generadas vs. reales usando métricas objetivas y análisis visual.
-
----
-
-## 4️⃣ Avances Técnicos
-
-### 🔹 Generación Sintética de ECG (`GEN_EKG.ipynb`)
-
-* Implementación de **generadores basados en arquitecturas recurrentes y convolucionales** para capturar dependencias temporales y morfología ECG.
-* Configuración inicial de WGAN y TimeGAN para generación de segmentos de latido.
-* Visualización de señales sintéticas y comparación inicial de complejos P-QRS-T con datos reales.
-
-### 🔹 Exploración y Análisis de Datos (`EDA_dataset.ipynb`)
-
-* Limpieza y balanceo de datasets **PTB-XL** y **MITDB**.
-* Extracción de características temporales y amplitud de P-QRS-T.
-* Primeras comparaciones estadísticas entre latidos reales y generados.
+  * Superposición de señales reales vs. sintéticas.
+  * Comparación de la densidad espectral de potencia (PSD).
 
 ---
 
-## 5️⃣ Métricas recomendadas para evaluar similitud ECG
+## 4️⃣ Resultados Principales (`4_GAN_1D.ipynb`)
 
-**Dominio señal / morfología**
+* El modelo **1D-GAN** logró generar señales con morfología coherente del complejo P-QRS-T.
+* La **distancia RMSE promedio** entre señales reales y sintéticas se redujo progresivamente a lo largo del entrenamiento (convergencia estable).
+* Se evidenció una **alta correlación (>0.9)** entre ciclos reales y generados en el dominio temporal.
+* Las **curvas de densidad espectral de potencia (PSD)** mostraron similitud estructural en las bandas de baja y media frecuencia (0–40 Hz).
+* Las señales sintéticas preservan la **variabilidad fisiológica** esperada (intervalos RR y amplitudes QRS).
 
-* **RMSE (Root Mean Square Error)** y **MAE (Mean Absolute Error)**: cuantifican diferencia punto a punto.
-* **CC / Pearson Correlation Coefficient**: mide correlación global entre señales.
-* **Dynamic Time Warping (DTW) distance**: robusto a ligeros desajustes temporales entre señales.
-* **FID adaptado (Fréchet Inception Distance modificado para series temporales)**: evalúa similitud en espacio latente.
-
-**Dominio clínico / eventos**
-
-* **Error porcentual de amplitud y tiempo de picos P, QRS, T**.
-* **ΔRR y HRV (Heart Rate Variability)**: consistencia en variabilidad de intervalos RR.
-* **Waveform Similarity Index (WSI)** o **Normalized Cross-Correlation (NCC)**: útil para forma de onda.
-
-**Dominio frecuencia**
-
-* **PSD (Power Spectral Density) similarity**: comparar distribución de energía en bandas relevantes.
-
-> **Recomendación práctica:**
-> Combinar métricas generales (RMSE, DTW, Pearson) con métricas clínicas (error de picos P-QRS-T) y FID adaptado para una validación robusta y multidimensional.
+![](./resultados/data_dist.png)
+![](./resultados/Fusion_of_ventricular_and_normal.png)
+![](./resultados/Gan_Losses.png)
+![](./resultados/metrics_analysis.png)
 
 ---
 
-## 6️⃣ Impacto y Alcance
+## 5️⃣ Métricas Recomendadas para Evaluación
 
-* **Académico**: democratiza la enseñanza práctica de bioseñales y generación de datasets sintéticos confiables.
-* **Investigación**: posibilita probar algoritmos de clasificación y detección de arritmias sin depender solo de datos reales.
-* **Tecnológico**: promueve el uso de **modelos generativos avanzados (GANs)** en biomedicina.
-* **Escalabilidad**: adaptable a otras señales fisiológicas (EMG, EEG) y nuevos modelos generativos.
+| Tipo de métrica                | Descripción                             | Implementación                            |
+| ------------------------------ | --------------------------------------- | ----------------------------------------- |
+| **RMSE / MAE**                 | Error punto a punto                     | NumPy / SciPy                             |
+| **DTW Distance**               | Alineamiento temporal flexible          | `dtaidistance` o `fastdtw`                |
+| **Correlación de Pearson (r)** | Similitud global entre ondas            | `scipy.stats.pearsonr`                    |
+| **FID adaptado**               | Distancia de Fréchet en espacio latente | Adaptación 1D basada en embeddings de CNN |
+| **PSD Similarity**             | Comparación de espectro de energía      | `scipy.signal.welch`                      |
+
+---
+
+## 6️⃣ Impacto y Aplicaciones
+
+* **Educación:** facilita la enseñanza de procesamiento de señales ECG sin depender de bases propietarias.
+* **Investigación:** permite validar algoritmos de clasificación, segmentación o detección de arritmias.
+* **Innovación tecnológica:** promueve el uso de **modelos generativos avanzados** (GANs, Diffusion Models) en biomedicina.
+* **Extensibilidad:** adaptable a señales EMG, EEG o PPG mediante ajustes de arquitectura y normalización.
 
 ---
 
 ## 7️⃣ Próximos Pasos
 
-* Mejorar estabilidad y realismo de la GAN con WGAN-GP y regularización espectral.
-* Calcular métricas combinadas (RMSE, DTW, correlación, FID) sobre dataset de validación.
-* Generar un conjunto curado de señales sintéticas etiquetadas con sus parámetros fisiológicos.
-* Documentar el pipeline para publicación y uso educativo.
+* Explorar arquitecturas **WGAN-GP** y **TimeGAN** para mejorar la estabilidad del entrenamiento.
+* Integrar métricas de similitud perceptual (LPIPS adaptado a 1D).
+* Implementar un módulo de **control condicional** (cGAN) para generar señales con parámetros fisiológicos específicos (frecuencia cardíaca, duración PR/QT).
+* Publicar un **dataset sintético etiquetado** y su pipeline reproducible.
 
+---
 
+## 📦 Estructura del Proyecto
 
+```
+├── notebooks/
+│   ├── 1_preprocesamiento.ipynb
+│   ├── 2_analisis_exploratorio.ipynb
+│   ├── 3_modelo_GAN_basico.ipynb
+│   ├── 4_GAN_1D.ipynb          ← Entrenamiento final y resultados
+├── data/
+│   ├── MITDB/                  ← Datos reales
+│   ├── synthetic/              ← Señales generadas
+├── models/
+│   ├── generator_1D.pth
+│   ├── discriminator_1D.pth
+├── README.md
+└── requirements.txt
+```
+
+---
+
+## 👨‍💻 Autor
+
+**Moisés Meza**
