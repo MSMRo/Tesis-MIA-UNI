@@ -1,0 +1,2 @@
+notebooks/ECG_DATASET_V2/*.csv filter=lfs diff=lfs merge=lfs -text
+notebooks/ECG_DATASET_V2/*.zip filter=lfs diff=lfs merge=lfs -text
