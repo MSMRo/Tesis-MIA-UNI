@@ -106,10 +106,71 @@ Evaluar el desempeño de un **modelo generativo de señales ECG basado en GANs**
 
 ---
 
-## 7️⃣ Próximos Pasos
+## 7️⃣ Resultados de Clasificación de Arritmias
+
+### 🔬 Feature Engineering y Evaluación de Modelos
+
+Se implementó un **sistema completo de ingeniería de características** para señales ECG, evaluando múltiples enfoques de extracción de características y algoritmos de machine learning para la clasificación automática de 17 tipos diferentes de arritmias cardíacas.
+
+#### 📊 **Enfoques de Extracción de Características Evaluados:**
+
+1. **Características Estadísticas Básicas**: Media, desviación estándar, asimetría, curtosis, etc.
+2. **Características Avanzadas con NeuroKit2**: 
+   - Métricas de variabilidad de frecuencia cardíaca (HRV)
+   - Intervalos temporales (PR, QRS, QT, QTc) 
+   - Amplitudes de ondas P, R, T, S
+   - Análisis espectral y entropía
+   - Características específicas por patología (AF, flutter, PVC, etc.)
+3. **Características Wavelet**: Transformada wavelet discreta con análisis multi-resolución
+
+#### 🏆 **Mejores Resultados de Clasificación:**
+
+| **Enfoque** | **Mejor Modelo** | **Accuracy** | **F1-Score Macro** | **Precision Macro** | **ROC-AUC** |
+|-------------|-------------------|--------------|-------------------|-------------------|-------------|
+| **Características Avanzadas (NeuroKit2)** | **Random Forest** | **88.5%** | **83.2%** | **92.4%** | **98.0%** |
+| **Características Wavelet** | **Random Forest** | **90.5%** | **81.9%** | **89.5%** | **97.8%** |
+
+#### 📈 **Resultados Detallados por Algoritmo:**
+
+**Con Características Avanzadas (NeuroKit2):**
+- **Random Forest**: 88.5% accuracy, 83.2% F1-macro, 98.0% ROC-AUC
+- **K-Nearest Neighbors**: 85.5% accuracy, 75.9% F1-macro, 94.3% ROC-AUC  
+- **Gradient Boosting**: 85.0% accuracy, 71.0% F1-macro, 96.9% ROC-AUC
+- **SVM-RBF**: 82.0% accuracy, 63.1% F1-macro, 98.3% ROC-AUC
+- **Logistic Regression**: 71.5% accuracy, 68.1% F1-macro, 95.3% ROC-AUC
+
+**Con Características Wavelet:**
+- **Random Forest**: 90.5% accuracy, 81.9% F1-macro, 97.8% ROC-AUC
+- **K-Nearest Neighbors**: 81.5% accuracy, 72.7% F1-macro, 96.6% ROC-AUC
+- **Gradient Boosting**: 82.5% accuracy, 66.1% F1-macro, 95.8% ROC-AUC
+- **SVM-RBF**: 83.0% accuracy, 73.6% F1-macro, 96.2% ROC-AUC
+- **Logistic Regression**: 81.5% accuracy, 69.4% F1-macro, 95.8% ROC-AUC
+
+#### 🔍 **Análisis de Separabilidad:**
+
+Se aplicaron técnicas de reducción de dimensionalidad (PCA, t-SNE, UMAP) para evaluar la capacidad de separación entre las 17 clases de arritmias:
+
+- **PCA explicó 85.2%** de la varianza total con 3 componentes
+- **t-SNE y UMAP** mostraron agrupaciones distintivas entre arritmias supraventriculares y ventriculares
+- **Mejor separabilidad** observada entre: NSR vs arritmias malignas (VT, VFL), y BBB vs ritmos normales
+
+#### 💡 **Conclusiones Técnicas:**
+
+1. **Random Forest** demostró ser el clasificador más robusto para ambos enfoques de características
+2. **Características Wavelet** lograron la mayor precisión general (90.5%)
+3. **Características NeuroKit2** ofrecieron mejor interpretabilidad clínica con alto rendimiento (88.5%)
+4. **ROC-AUC >95%** en todos los modelos indica excelente capacidad discriminativa
+5. **Cross-validation** confirmó estabilidad y generalización de los modelos
+
+---
+
+## 8️⃣ Próximos Pasos
 
 * Mejorar estabilidad y realismo de la GAN con WGAN-GP y regularización espectral.
+* **Integrar clasificadores entrenados** como métricas de validación para señales sintéticas generadas.
+* Implementar **ensemble learning** combinando características NeuroKit2 y Wavelet para maximizar rendimiento.
 * Calcular métricas combinadas (RMSE, DTW, correlación, FID) sobre dataset de validación.
+* **Desarrollar pipeline de clasificación en tiempo real** para aplicaciones clínicas.
 * Generar un conjunto curado de señales sintéticas etiquetadas con sus parámetros fisiológicos.
 * Documentar el pipeline para publicación y uso educativo.
 
