@@ -164,7 +164,39 @@ Se aplicaron técnicas de reducción de dimensionalidad (PCA, t-SNE, UMAP) para 
 
 ---
 
-## 8️⃣ Próximos Pasos
+## 8️⃣ Resultados de la Generación GAN de Señales ECG
+
+![](resultados/imagenes/gan_lstm1.png)
+
+
+Esta sección resume los resultados cuantitativos obtenidos al entrenar el modelo **GAN con Generador LSTM bidireccional** (notebook `5_GEN_SIGNAL_VANILLA_LSTM.ipynb`) para la clase NSR y compararlos contra señales reales.
+
+### 🔧 Configuración resumida del experimento
+- Longitud de señal: 3600 muestras.
+- Latent dim: 100.
+- Optimizadores: Adam (lr=1e-4, betas=0.5, 0.999).
+- Trucos de estabilidad: label smoothing (0.9 / 0.1), 2 pasos de G por 1 de D, feature matching (peso 0.1), gradient clipping y schedulers.
+
+![](resultados/imagenes/gan_lstm2.png)
+
+
+
+
+
+### ✅ Conclusiones de la generación
+1. El modelo reproduce adecuadamente la estructura global y espectral del latido NSR.
+2. Persisten diferencias en curtosis y detalles de micro-morfología (picos agudos). 
+3. Métricas sugieren punto de partida sólido para extender a otras arritmias con condicionamiento.
+4. Se recomienda refinar embedding para FID y añadir discriminador auxiliar de calidad morfológica.
+
+### 🔜 Mejoras propuestas para la siguiente iteración
+
+- Añadir **pérdida fisiológica** (penalizar desviaciones en intervalos PR, QRS, QT). 
+- Usar un **encoder pre-entrenado** para cálculo consistente de FID temporal.
+- Evaluar **clasificador externo** (Random Forest entrenado en señales reales) como discriminador adicional (Score-based guidance).
+
+
+## 9️⃣ Próximos Pasos
 
 * Mejorar estabilidad y realismo de la GAN con WGAN-GP y regularización espectral.
 * **Integrar clasificadores entrenados** como métricas de validación para señales sintéticas generadas.
