@@ -8,7 +8,7 @@ En el campo de la **Ingeniería Biomédica** y áreas afines, existe una **caren
 * Variabilidad restringida en poblaciones y condiciones.
 * Anotaciones heterogéneas o insuficientes para algunos fines educativos e investigativos.
 
-Esto genera dificultades en:
+Esto genera dificultades:
 
 * **Formación académica**, al impedir que estudiantes practiquen con datos diversos y realistas.
 * **Investigación y validación de algoritmos**, por falta de datos suficientes para entrenar modelos robustos.
