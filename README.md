@@ -8,7 +8,7 @@ En el campo de la **Ingeniería Biomédica** y áreas afines, existe una **caren
 * Variabilidad restringida en poblaciones y condiciones.
 * Anotaciones heterogéneas o insuficientes para algunos fines educativos e investigativos.
 
-Esto genera dificultades en:
+Esto genera dificultades:
 
 * **Formación académica**, al impedir que estudiantes practiquen con datos diversos y realistas.
 * **Investigación y validación de algoritmos**, por falta de datos suficientes para entrenar modelos robustos.
@@ -180,6 +180,17 @@ Esta sección resume los resultados cuantitativos obtenidos al entrenar el model
 ![](resultados/imagenes/gan_lstm2.png)
 
 
+### Avance del frontend - EKGSIM
+La interfaz de la aplicación EKGSim se organiza en secciones diseñadas para interactuar de manera sencilla con la simulación del electrocardiograma. En la parte lateral izquierda suele encontrarse una barra de control donde el usuario puede ajustar los parámetros de la señal, como la frecuencia cardíaca, la amplitud de las ondas o el nivel de ruido. Estos controles permiten modificar en tiempo real el comportamiento del ECG generado.
+
+En la zona central se muestra el gráfico principal, que corresponde al trazado del electrocardiograma. Este panel permite visualizar la forma de onda simulada, apreciar la morfología de las ondas P, QRS y T, y observar cómo cambian cuando se ajustan los parámetros. En algunos casos, esta sección puede incluir herramientas adicionales como zoom, actualización automática o comparación entre señales.
+
+Debajo del gráfico suele encontrarse una sección de resultados o interpretación, donde se presentan valores calculados a partir de la señal, como intervalos RR, duración del QRS o variabilidad de la frecuencia cardíaca. Esta área ayuda al usuario a analizar cuantitativamente la señal simulada.
+
+Finalmente, la interfaz puede incluir un panel de información o descripción breve, donde se explica el propósito de la herramienta, la metodología de simulación o las instrucciones para su uso, asegurando que el usuario pueda comprender rápidamente cómo interactuar con la aplicación.
+link : https://ekgsim-isb.streamlit.app/
+
+![](imgs/ecksim1.png)
 
 
 
