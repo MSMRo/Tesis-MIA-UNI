@@ -38,6 +38,7 @@ st.sidebar.markdown(
     "- Visualización: Plotly\n"
 )
 st.sidebar.markdown("---")
+generate        = st.sidebar.button("Generate ECG")
 
 # — 3) Frecuencia de muestreo configurable —
 sampling_rate = st.sidebar.number_input(
@@ -59,7 +60,7 @@ bpm             = st.sidebar.slider("BPM (40–140)",                  40,  140,
 bpm_noise_amp   = st.sidebar.slider("BPM Noise σ (bpm)",             0.0, 10.0,   1.0, step=0.5)
 white_noise_amp = st.sidebar.slider("White Noise (mV)",              0.0,  0.5,   0.04, step=0.01)
 pl_noise_amp    = st.sidebar.slider("50 Hz Noise (mV)",              0.0,  1.0,   0.01, step=0.01)
-generate        = st.sidebar.button("Generate ECG")
+#generate        = st.sidebar.button("Generate ECG")
 
 # — 5) Inicializar session_state para la señal —
 if "ecg_df" not in st.session_state:
