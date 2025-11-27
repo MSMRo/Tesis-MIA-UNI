@@ -23,7 +23,7 @@ st.set_page_config(page_title="ECG Synthetic Signal Generator", layout="wide")
 #    if uploaded_logo:
 #        st.sidebar.image(uploaded_logo, width=180)
 
-st.sidebar.image("https://raw.githubusercontent.com/MSMRo/EKG_signal_GEN-GUI/refs/heads/main/img/logo.png", width=180)
+st.sidebar.image("https://raw.githubusercontent.com/MSMRo/EKG_signal_GEN-GUI/refs/heads/main/img/logo.png", width=185)
 st.sidebar.markdown("## ABOUT")
 st.sidebar.markdown(
     "Esta aplicación genera señales ECG sintéticas "
