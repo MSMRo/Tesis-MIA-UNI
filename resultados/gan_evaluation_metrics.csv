@@ -1,12 +1,3 @@
-Métrica,Valor,Interpretación
-FID Score,-346.6208,Menor es mejor (distancia entre distribuciones)
-Distancia de Medias (Wasserstein),0.0074,Menor es mejor (diferencia en medias)
-Distancia de Desv. Estándar (Wasserstein),0.0135,Menor es mejor (diferencia en variabilidad)
-Distancia de Asimetría (Wasserstein),0.2804,Menor es mejor (diferencia en asimetría)
-Distancia de Curtosis (Wasserstein),1.9725,Menor es mejor (diferencia en curtosis)
-DTW Distance (promedio),4.9148 ± 2.2970,Menor es mejor (similitud temporal)
-Cross Correlation (promedio),0.8291 ± 0.0924,Mayor es mejor (similitud en forma)
-Distancia Espectral (promedio),1.1545 ± 0.7642,Menor es mejor (similitud en frecuencias)
-MSE (promedio),0.0151 ± 0.0099,Menor es mejor (diferencia punto a punto)
-Correlación Espectral,0.9911,Mayor es mejor (similitud espectral)
-MSE Espectral,19.6113,Menor es mejor (diferencia espectral)
+version https://git-lfs.github.com/spec/v1
+oid sha256:ec360d93fb1f05395fed5da35a7ad624c70546b759336c19103a74d7208d6e27
+size 892
