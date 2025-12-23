@@ -1,4 +1,4 @@
-# 🧠 Generación Sintética de Señales ECG para Aplicaciones en Educación y Validación de Algoritmos
+# 🧠 Generación Sintética de Señales ECG para Aplicaciones en Educación y Validación de Algoritmos de cgan
 
 ## 1️⃣ Contexto y Motivación
 
